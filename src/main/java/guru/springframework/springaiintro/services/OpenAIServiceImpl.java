@@ -53,13 +53,13 @@ public class OpenAIServiceImpl implements OpenAIService {
     public GetCapitalResponse getCapital(GetCapitalRequest getCapitalRequest) {
         BeanOutputParser<GetCapitalResponse> parser = new BeanOutputParser<>(GetCapitalResponse.class);
         String format = parser.getFormat();
-
+        System.out.println("Format: \n"+ format);
         PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt);
         Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry(),
                 "format", format));
 
         ChatResponse response = chatClient.call(prompt);
-
+        System.out.println(response.getResult().getOutput().getContent());
         return parser.parse(response.getResult().getOutput().getContent());
     }
 
